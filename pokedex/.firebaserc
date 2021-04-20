@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "pokedex-bd1e4": {
+      "hosting": {
+        "pokedex": [
+          "pokedex-bd1e4"
+        ]
+      }
+    }
+  }
+}
