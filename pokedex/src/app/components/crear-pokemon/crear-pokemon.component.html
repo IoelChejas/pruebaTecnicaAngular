@@ -9,7 +9,9 @@
                         </div>
                     </h3>
                     <span *ngIf="submitted && crearPokemon.invalid" class="badge bg-danger">TODOS LOS CAMPOS SON
-                        OBLIGATORIOS</span>
+                        OBLIGATORIOS
+                    </span>
+                    <hr>
                     <form class="mt-4" [formGroup]="crearPokemon" (ngSubmit)="agregarEditarPokemon()">
                         <div class="row">
                             <div class="col">
@@ -25,6 +27,25 @@
                                     placeholder="Nivel">
                             </div>
                         </div>
+                        <hr>
+                        <div class="mb-3 mt-4">
+                            <label for="formFile" class="form-label">Subir imagen del pokemon</label>
+                            <input class="form-control" type="file" accept=".png, .jpg"
+                                (change)="onChangeImage($event)">
+                        </div>
+
+                        <img *ngIf="temporalUrlImage" [src]="temporalUrlImage | async" height="300" width="300"
+                            class="img-fluid" alt=" ">
+                        <img *ngIf="!temporalUrlImage" src="/assets/imagen_pokemon_defecto.jpg" height="300" width="300"
+                            class="img-fluid" alt=" ">
+                        <div *ngIf="uploading" class="progress mt-4">
+                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                [style.width]="(uploadPercent | async) + '%'">
+                            </div>
+                        </div>
+
+                        <input #imagePokemon type="string" [value]="temporalUrlImage | async">
+                        <hr>
                         <div class="mt-3">
                             <button type="text" class="btn btn-secondary btn-lg" style="margin-right: 10px;"
                                 routerLink="/lista-pokemones">

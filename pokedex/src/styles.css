@@ -7,3 +7,8 @@ body{
    background-size: cover;
    height: 100vh;
 }
+img{
+    border: 10px solid transparent;
+    padding: 15px;
+    border-color: black;
+}
