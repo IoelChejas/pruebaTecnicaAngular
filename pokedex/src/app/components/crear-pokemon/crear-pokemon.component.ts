@@ -21,6 +21,7 @@ export class CrearPokemonComponent implements OnInit {
   uploading = false
 
   tipos = []
+  habilidades = []
 
   constructor(private fb: FormBuilder,
     private _pokemonService: PokemonService,
@@ -32,7 +33,8 @@ export class CrearPokemonComponent implements OnInit {
       tipo: [[]],
       nombre: ["", Validators.required],
       nivel: ["", Validators.required],
-      imagen: ["", Validators.required]
+      imagen: ["", Validators.required],
+      habilidad: [[]]
     })
   }
 
@@ -52,6 +54,12 @@ export class CrearPokemonComponent implements OnInit {
       });
       return
     }
+    if (this.habilidades.length == 0) {
+      this.toastr.error('Falta agregar habilidades al pokemon', 'Faltan habilidades', {
+        positionClass: "toast-bottom-right"
+      });
+      return
+    }
     if (this.crearPokemon.invalid) {
       return
     }
@@ -59,7 +67,8 @@ export class CrearPokemonComponent implements OnInit {
       tipo: this.tipos,
       nombre: this.crearPokemon.value.nombre,
       nivel: this.crearPokemon.value.nivel,
-      urlImagen: this.url
+      urlImagen: this.url,
+      habilidad: this.habilidades
     }
     this.loading = true
     this._pokemonService.agregarPokemon(pokemon).then(() => {
@@ -104,6 +113,17 @@ export class CrearPokemonComponent implements OnInit {
   eliminarTipo(tipo) {
     var indice = this.tipos.indexOf(tipo)
     this.tipos.splice(indice, 1)
+  }
+
+  agregarHabilidad() {
+    if (this.crearPokemon.value.habilidad.split("").length > 0) {
+      this.habilidades.push(this.crearPokemon.value.habilidad)
+    }
+  }
+
+  eliminarHabilidad(habilidad) {
+    var indice = this.habilidades.indexOf(habilidad)
+    this.habilidades.splice(indice, 1)
   }
 }
 

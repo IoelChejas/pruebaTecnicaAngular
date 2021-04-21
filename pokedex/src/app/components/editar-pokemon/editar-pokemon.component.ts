@@ -20,7 +20,9 @@ export class EditarPokemonComponent implements OnInit {
   id: string | null
   titulo = "Editar pokemon"
   uploading = false
+
   tipos = []
+  habilidades = []
 
   constructor(private fb: FormBuilder,
     private _pokemonService: PokemonService,
@@ -31,7 +33,8 @@ export class EditarPokemonComponent implements OnInit {
     this.editarPokemon = this.fb.group({
       tipo: [[]],
       nombre: ["", Validators.required],
-      nivel: ["", Validators.required]
+      nivel: ["", Validators.required],
+      habilidad: [[]]
     })
     this.id = this.aRoute.snapshot.paramMap.get('id')
   }
@@ -50,12 +53,13 @@ export class EditarPokemonComponent implements OnInit {
       this.editarPokemon.setValue({
         tipo: "",
         nombre: data.payload.data()["nombre"],
-        nivel: data.payload.data()["nivel"]
+        nivel: data.payload.data()["nivel"],
+        habilidad: ""
       })
-      console.log(data.payload.data()["tipo"])
       this.tipos = data.payload.data()["tipo"]//.split([","])
       this.urlImagenAMostrar = data.payload.data()["urlImagen"]
       this.url = data.payload.data()["urlImagen"]
+      this.habilidades = data.payload.data()["habilidad"]
     })
   }
 
@@ -69,11 +73,18 @@ export class EditarPokemonComponent implements OnInit {
       });
       return
     }
+    if (this.habilidades.length == 0) {
+      this.toastr.error('Falta agregar habilidades al pokemon', 'Faltan habilidades', {
+        positionClass: "toast-bottom-right"
+      });
+      return
+    }
     const pokemon: any = {
       tipo: this.tipos,
       nombre: this.editarPokemon.value.nombre,
       nivel: this.editarPokemon.value.nivel,
-      urlImagen: this.url
+      urlImagen: this.url,
+      habilidad: this.habilidades
     }
     this.loading = true
     this._pokemonService.actualizarPokemon(this.id, pokemon).then(() => {
@@ -125,4 +136,14 @@ export class EditarPokemonComponent implements OnInit {
     this.tipos.splice(indice, 1)
   }
 
+  agregarHabilidad() {
+    if (this.editarPokemon.value.habilidad.split("").length > 0) {
+      this.habilidades.push(this.editarPokemon.value.habilidad)
+    }
+  }
+
+  eliminarHabilidad(habilidad) {
+    var indice = this.habilidades.indexOf(habilidad)
+    this.habilidades.splice(indice, 1)
+  }
 }
