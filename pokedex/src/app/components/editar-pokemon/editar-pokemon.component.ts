@@ -24,6 +24,10 @@ export class EditarPokemonComponent implements OnInit {
   tipos = []
   habilidades = []
 
+  evoluciones = []
+
+  tiposDeEvolucion = []
+
   constructor(private fb: FormBuilder,
     private _pokemonService: PokemonService,
     private router: Router,
@@ -34,7 +38,10 @@ export class EditarPokemonComponent implements OnInit {
       tipo: [[]],
       nombre: ["", Validators.required],
       nivel: ["", Validators.required],
-      habilidad: [[]]
+      habilidad: [[]],
+      tipoEvolucion: [[]],
+      nivelEvolucion: [""],
+      nombreEvolucion: [""]
     })
     this.id = this.aRoute.snapshot.paramMap.get('id')
   }
@@ -50,16 +57,20 @@ export class EditarPokemonComponent implements OnInit {
     this.loading = true
     this._pokemonService.getPokemon(this.id).subscribe(data => {
       this.loading = false
+      this.tipos = data.payload.data()["tipo"]//.split([","])
+      this.urlImagenAMostrar = data.payload.data()["urlImagen"]
+      this.url = data.payload.data()["urlImagen"]
+      this.habilidades = data.payload.data()["habilidad"],
+        this.evoluciones = data.payload.data()["evoluciones"]
       this.editarPokemon.setValue({
         tipo: "",
         nombre: data.payload.data()["nombre"],
         nivel: data.payload.data()["nivel"],
-        habilidad: ""
+        habilidad: "",
+        tipoEvolucion: "",
+        nombreEvolucion: "",
+        nivelEvolucion: ""
       })
-      this.tipos = data.payload.data()["tipo"]//.split([","])
-      this.urlImagenAMostrar = data.payload.data()["urlImagen"]
-      this.url = data.payload.data()["urlImagen"]
-      this.habilidades = data.payload.data()["habilidad"]
     })
   }
 
@@ -84,7 +95,8 @@ export class EditarPokemonComponent implements OnInit {
       nombre: this.editarPokemon.value.nombre,
       nivel: this.editarPokemon.value.nivel,
       urlImagen: this.url,
-      habilidad: this.habilidades
+      habilidad: this.habilidades,
+      evoluciones: this.evoluciones
     }
     this.loading = true
     this._pokemonService.actualizarPokemon(this.id, pokemon).then(() => {
@@ -145,5 +157,29 @@ export class EditarPokemonComponent implements OnInit {
   eliminarHabilidad(habilidad) {
     var indice = this.habilidades.indexOf(habilidad)
     this.habilidades.splice(indice, 1)
+  }
+
+  agregarTipoAEvolucion() {
+    if (this.editarPokemon.value.tipoEvolucion.split("").length > 0) {
+      this.tiposDeEvolucion.push(this.editarPokemon.value.tipoEvolucion)
+    }
+  }
+
+  eliminarTipoDeEvolucion(tipoEvolucion) {
+    var indice = this.tiposDeEvolucion.indexOf(tipoEvolucion)
+    this.tiposDeEvolucion.splice(indice, 1)
+  }
+
+  agregarEvolucion() {
+    this.evoluciones.push({
+      tipo: this.tiposDeEvolucion,
+      nombre: this.editarPokemon.value.nombreEvolucion,
+      nivel: this.editarPokemon.value.nivelEvolucion
+    })
+  }
+
+  eliminarEvolucion(evolucion) {
+    var indice = this.evoluciones.indexOf(evolucion)
+    this.evoluciones.splice(indice, 1)
   }
 }

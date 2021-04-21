@@ -51,7 +51,8 @@
                             <input class="form-control" type="file" accept=".png, .jpg"
                                 (change)="onChangeImage($event)">
                         </div>
-                        <img *ngIf="urlImagenAMostrar" [src]="urlImagenAMostrar" height="300" width="300" class="img-fluid" alt=" ">
+                        <img *ngIf="urlImagenAMostrar" [src]="urlImagenAMostrar" height="300" width="300"
+                            class="img-fluid" alt=" ">
                         <div *ngIf="uploading" class="progress mt-4">
                             <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
                                 [style.width]="(uploadPercent | async) + '%'">
@@ -61,9 +62,10 @@
                         <div class="row mt-4">
                             <div class="col">
                                 <tr>
-                                    <td><input type="text" class="form-control form-control-lg" formControlName="habilidad"
-                                            placeholder="Habilidad"></td>
-                                    <td><i (click)="agregarHabilidad()" class="fas fa-plus-circle fa-lg text-success"></i>
+                                    <td><input type="text" class="form-control form-control-lg"
+                                            formControlName="habilidad" placeholder="Habilidad"></td>
+                                    <td><i (click)="agregarHabilidad()"
+                                            class="fas fa-plus-circle fa-lg text-success"></i>
                                     </td>
                                 </tr>
                             </div>
@@ -73,9 +75,81 @@
                                 </div>
                                 <tr *ngFor="let h of habilidades">
                                     <td><span class="badge bg-info" style="margin-right: 10px;">{{ h }}</span></td>
-                                    <td><i (click)="eliminarHabilidad(h)" class="fas fa-trash fa-lg text-danger"></i></td>
+                                    <td><i (click)="eliminarHabilidad(h)" class="fas fa-trash fa-lg text-danger"></i>
+                                    </td>
                                 </tr>
                             </div>
+                        </div>
+                        <hr>
+                        <span class="badge bg-info" style="margin-right: 10px;">AGREGAR EVOLUCIONES</span>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <tr>
+                                    <td><input type="text" class="form-control form-control-lg"
+                                            formControlName="tipoEvolucion" placeholder="Tipo de la evolucion"></td>
+
+                                    <td><i (click)="agregarTipoAEvolucion()"
+                                            class="fas fa-plus-circle fa-lg text-success"></i>
+                                    </td>
+                                </tr>
+                            </div>
+                            <div class="col">
+                                <div *ngIf="tiposDeEvolucion.length === 0">
+                                    <span class="badge bg-danger" style="margin-right: 10px;">NO HAY TIPOS</span>
+                                </div>
+                                <tr *ngFor="let t of tiposDeEvolucion">
+                                    <td><span class="badge bg-info" style="margin-right: 10px;">{{ t }}</span></td>
+                                    <td><i (click)="eliminarTipoDeEvolucion(t)"
+                                            class="fas fa-trash fa-lg text-danger"></i></td>
+                                </tr>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg"
+                                    formControlName="nombreEvolucion" placeholder="Nombre de la evolución">
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <input type="number" class="form-control form-control-lg"
+                                    formControlName="nivelEvolucion" placeholder="Nivel de la evolución">
+                            </div>
+                        </div>
+                        <i *ngIf="tiposDeEvolucion.length > 0 && editarPokemon.value.nombreEvolucion && editarPokemon.value.nivelEvolucion"
+                            class="fas fa-thumbs-up" (click)="agregarEvolucion()"></i>
+                        <hr>
+                        <div *ngIf="evoluciones.length === 0">
+                            <span class="badge bg-danger" style="margin-right: 10px;">NO HAY EVOLUCIONES</span>
+                        </div>
+                        <div *ngIf="evoluciones.length > 0">
+                            <span class="badge bg-info" style="margin-right: 10px;">EVOLUCIONES</span>
+                            <table class="table table-striped mt-5">
+                                <thead>
+                                    <tr>
+                                        <th>Tipos</th>
+                                        <th>Nombre</th>
+                                        <th>Nivel</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let e of evoluciones">
+                                        <td>
+                                    <tr>
+                                        <td *ngFor="let t of e.tipo"><span class="badge bg-info"
+                                                style="margin-right: 10px;">{{ t
+                                                }}</span></td>
+                                    </tr>
+                                    </td>
+                                    <td>{{ e.nombre }}</td>
+                                    <td>{{ e.nivel }}</td>
+                                    <td>
+                                        <i (click)="eliminarEvolucion(e)" class="fas fa-trash fa-lg text-danger"></i>
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <hr>
                         <div class="mt-3">

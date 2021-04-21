@@ -23,6 +23,10 @@ export class CrearPokemonComponent implements OnInit {
   tipos = []
   habilidades = []
 
+  evoluciones = []
+
+  tiposDeEvolucion = []
+
   constructor(private fb: FormBuilder,
     private _pokemonService: PokemonService,
     private router: Router,
@@ -34,7 +38,10 @@ export class CrearPokemonComponent implements OnInit {
       nombre: ["", Validators.required],
       nivel: ["", Validators.required],
       imagen: ["", Validators.required],
-      habilidad: [[]]
+      habilidad: [[]],
+      tipoEvolucion: [[]],
+      nivelEvolucion: [""],
+      nombreEvolucion: [""]
     })
   }
 
@@ -68,7 +75,8 @@ export class CrearPokemonComponent implements OnInit {
       nombre: this.crearPokemon.value.nombre,
       nivel: this.crearPokemon.value.nivel,
       urlImagen: this.url,
-      habilidad: this.habilidades
+      habilidad: this.habilidades,
+      evoluciones: this.evoluciones
     }
     this.loading = true
     this._pokemonService.agregarPokemon(pokemon).then(() => {
@@ -124,6 +132,30 @@ export class CrearPokemonComponent implements OnInit {
   eliminarHabilidad(habilidad) {
     var indice = this.habilidades.indexOf(habilidad)
     this.habilidades.splice(indice, 1)
+  }
+
+  agregarTipoAEvolucion() {
+    if (this.crearPokemon.value.tipoEvolucion.split("").length > 0) {
+      this.tiposDeEvolucion.push(this.crearPokemon.value.tipoEvolucion)
+    }
+  }
+
+  eliminarTipoDeEvolucion(tipoEvolucion) {
+    var indice = this.tiposDeEvolucion.indexOf(tipoEvolucion)
+    this.tiposDeEvolucion.splice(indice, 1)
+  }
+
+  agregarEvolucion() {
+    this.evoluciones.push({
+      tipo: this.tiposDeEvolucion,
+      nombre: this.crearPokemon.value.nombreEvolucion,
+      nivel: this.crearPokemon.value.nivelEvolucion
+    })
+  }
+
+  eliminarEvolucion(evolucion) {
+    var indice = this.evoluciones.indexOf(evolucion)
+    this.evoluciones.splice(indice, 1)
   }
 }
 
