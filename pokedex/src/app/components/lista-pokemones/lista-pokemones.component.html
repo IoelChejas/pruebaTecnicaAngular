@@ -16,13 +16,19 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let pokemon of pokemones">
-                        <td>{{ pokemon.tipo }}</td>
-                        <td>{{ pokemon.nombre }}</td>
-                        <td>{{ pokemon.nivel }}</td>
                         <td>
-                            <i class="fas fa-edit fa-lg text-info" style="margin-right: 10px;" [routerLink]="['/editar-pokemon', pokemon.id]"></i>
-                            <i (click)="eliminarPokemon(pokemon.id)" class="fas fa-trash fa-lg text-danger"></i>
-                        </td>
+                    <tr>
+                        <td *ngFor="let t of pokemon.tipo"><span class="badge bg-info" style="margin-right: 10px;">{{ t
+                                }}</span></td>
+                    </tr>
+                    </td>
+                    <td>{{ pokemon.nombre }}</td>
+                    <td>{{ pokemon.nivel }}</td>
+                    <td>
+                        <i class="fas fa-edit fa-lg text-info" style="margin-right: 10px;"
+                            [routerLink]="['/editar-pokemon', pokemon.id]"></i>
+                        <i (click)="eliminarPokemon(pokemon.id)" class="fas fa-trash fa-lg text-danger"></i>
+                    </td>
                     </tr>
                 </tbody>
             </table>

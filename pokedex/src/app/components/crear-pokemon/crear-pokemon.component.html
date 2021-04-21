@@ -15,8 +15,22 @@
                     <form class="mt-4" [formGroup]="crearPokemon" (ngSubmit)="agregarPokemon()">
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control form-control-lg" formControlName="tipo"
-                                    placeholder="Tipo">
+                                <tr>
+                                    <td><input type="text" class="form-control form-control-lg" formControlName="tipo"
+                                            placeholder="Tipo"></td>
+
+                                    <td><i (click)="agregarTipo()" class="fas fa-plus-circle fa-lg text-success"></i>
+                                    </td>
+                                </tr>
+                            </div>
+                            <div class="col">
+                                <div *ngIf="tipos.length === 0">
+                                    <span class="badge bg-danger" style="margin-right: 10px;">NO HAY TIPOS</span>
+                                </div>
+                                <tr *ngFor="let t of tipos">
+                                    <td><span class="badge bg-info" style="margin-right: 10px;">{{ t }}</span></td>
+                                    <td><i (click)="eliminarTipo(t)" class="fas fa-trash fa-lg text-danger"></i></td>
+                                </tr>
                             </div>
                         </div>
                         <div class="row mt-4">
@@ -34,8 +48,8 @@
                         <hr>
                         <div class="mb-3 mt-4">
                             <label for="formFile" class="form-label">Subir imagen del pokemon</label>
-                            <input class="form-control" type="file" accept=".png, .jpg"
-                                (change)="onChangeImage($event)">
+                            <input class="form-control" type="file" accept=".png, .jpg" (change)="onChangeImage($event)"
+                                formControlName="imagen">
                         </div>
                         <div *ngIf="uploading" class="progress mt-4">
                             <div class="progress-bar progress-bar-striped bg-success" role="progressbar"

@@ -20,6 +20,8 @@ export class CrearPokemonComponent implements OnInit {
   titulo = "Agregar pokemon"
   uploading = false
 
+  tipos = []
+
   constructor(private fb: FormBuilder,
     private _pokemonService: PokemonService,
     private router: Router,
@@ -27,9 +29,10 @@ export class CrearPokemonComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private storage: AngularFireStorage) {
     this.crearPokemon = this.fb.group({
-      tipo: [[], Validators.required],
+      tipo: [[]],
       nombre: ["", Validators.required],
-      nivel: ["", Validators.required]
+      nivel: ["", Validators.required],
+      imagen: ["", Validators.required]
     })
   }
 
@@ -40,14 +43,20 @@ export class CrearPokemonComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  
+
   agregarPokemon() {
     this.submitted = true
+    if (this.tipos.length == 0) {
+      this.toastr.error('Falta agregar tipos al pokemon', 'Faltan tipos', {
+        positionClass: "toast-bottom-right"
+      });
+      return
+    }
     if (this.crearPokemon.invalid) {
       return
     }
     const pokemon: any = {
-      tipo: this.crearPokemon.value.tipo,
+      tipo: this.tipos,
       nombre: this.crearPokemon.value.nombre,
       nivel: this.crearPokemon.value.nivel,
       urlImagen: this.url
@@ -85,4 +94,18 @@ export class CrearPokemonComponent implements OnInit {
     }
     )).subscribe()
   }
+
+  agregarTipo() {
+    if (this.crearPokemon.value.tipo.split("").length > 0) {
+      this.tipos.push(this.crearPokemon.value.tipo)
+    }
+  }
+
+  eliminarTipo(tipo) {
+    var indice = this.tipos.indexOf(tipo)
+    this.tipos.splice(indice, 1)
+  }
 }
+
+
+

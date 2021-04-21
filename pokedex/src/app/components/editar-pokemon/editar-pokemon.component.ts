@@ -20,6 +20,7 @@ export class EditarPokemonComponent implements OnInit {
   id: string | null
   titulo = "Editar pokemon"
   uploading = false
+  tipos = []
 
   constructor(private fb: FormBuilder,
     private _pokemonService: PokemonService,
@@ -28,7 +29,7 @@ export class EditarPokemonComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private storage: AngularFireStorage) {
     this.editarPokemon = this.fb.group({
-      tipo: [[], Validators.required],
+      tipo: [[]],
       nombre: ["", Validators.required],
       nivel: ["", Validators.required]
     })
@@ -46,12 +47,13 @@ export class EditarPokemonComponent implements OnInit {
     this.loading = true
     this._pokemonService.getPokemon(this.id).subscribe(data => {
       this.loading = false
-      console.log(data.payload.data()["tipo"])
       this.editarPokemon.setValue({
-        tipo: data.payload.data()["tipo"],
+        tipo: "",
         nombre: data.payload.data()["nombre"],
         nivel: data.payload.data()["nivel"]
       })
+      console.log(data.payload.data()["tipo"])
+      this.tipos = data.payload.data()["tipo"]//.split([","])
       this.urlImagenAMostrar = data.payload.data()["urlImagen"]
       this.url = data.payload.data()["urlImagen"]
     })
@@ -61,8 +63,14 @@ export class EditarPokemonComponent implements OnInit {
     if (this.urlT) {
       this.editImage()
     }
+    if (this.tipos.length == 0) {
+      this.toastr.error('Falta agregar tipos al pokemon', 'Faltan tipos', {
+        positionClass: "toast-bottom-right"
+      });
+      return
+    }
     const pokemon: any = {
-      tipo: this.editarPokemon.value.tipo,
+      tipo: this.tipos,
       nombre: this.editarPokemon.value.nombre,
       nivel: this.editarPokemon.value.nivel,
       urlImagen: this.url
@@ -104,6 +112,17 @@ export class EditarPokemonComponent implements OnInit {
       this.uploading = false
     }
     )).subscribe()
+  }
+
+  agregarTipo() {
+    if (this.editarPokemon.value.tipo.split("").length > 0) {
+      this.tipos.push(this.editarPokemon.value.tipo)
+    }
+  }
+
+  eliminarTipo(tipo) {
+    var indice = this.tipos.indexOf(tipo)
+    this.tipos.splice(indice, 1)
   }
 
 }

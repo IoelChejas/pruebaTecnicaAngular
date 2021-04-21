@@ -14,7 +14,7 @@ export class PokemonService {
   }
 
   getPokemones(): Observable<any> {
-    return this.firestore.collection("pokemones", ref => ref.orderBy('tipo', 'desc')).snapshotChanges()
+    return this.firestore.collection("pokemones", ref => ref.orderBy('nivel', 'desc')).snapshotChanges()
   }
 
   eliminarPokemon(id): Promise<any> {
