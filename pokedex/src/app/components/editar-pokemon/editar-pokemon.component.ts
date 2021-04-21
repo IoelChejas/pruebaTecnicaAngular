@@ -8,16 +8,17 @@ import { finalize } from 'rxjs/operators'
 import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
-  selector: 'app-crear-pokemon',
-  templateUrl: './crear-pokemon.component.html',
-  styleUrls: ['./crear-pokemon.component.css']
+  selector: 'app-editar-pokemon',
+  templateUrl: './editar-pokemon.component.html',
+  styleUrls: ['./editar-pokemon.component.css']
 })
-export class CrearPokemonComponent implements OnInit {
-  crearPokemon: FormGroup
+export class EditarPokemonComponent implements OnInit {
+
+  editarPokemon: FormGroup
   submitted = false
   loading = false
   id: string | null
-  titulo = "Agregar pokemon"
+  titulo = "Editar pokemon"
   uploading = false
 
   constructor(private fb: FormBuilder,
@@ -26,44 +27,62 @@ export class CrearPokemonComponent implements OnInit {
     private toastr: ToastrService,
     private aRoute: ActivatedRoute,
     private storage: AngularFireStorage) {
-    this.crearPokemon = this.fb.group({
+    this.editarPokemon = this.fb.group({
       tipo: [[], Validators.required],
       nombre: ["", Validators.required],
       nivel: ["", Validators.required]
     })
+    this.id = this.aRoute.snapshot.paramMap.get('id')
   }
 
   uploadPercent: Observable<number>
   file: string
   url: string
   urlT: string
+  urlImagenAMostrar: string
 
   ngOnInit(): void {
+    this.urlImagenAMostrar = "/assets/imagen_pokemon_defecto.jpg"
+    this.loading = true
+    this._pokemonService.getPokemon(this.id).subscribe(data => {
+      this.loading = false
+      console.log(data.payload.data()["tipo"])
+      this.editarPokemon.setValue({
+        tipo: data.payload.data()["tipo"],
+        nombre: data.payload.data()["nombre"],
+        nivel: data.payload.data()["nivel"]
+      })
+      this.urlImagenAMostrar = data.payload.data()["urlImagen"]
+      this.url = data.payload.data()["urlImagen"]
+    })
   }
-  
-  agregarPokemon() {
-    this.submitted = true
-    if (this.crearPokemon.invalid) {
-      return
+
+  editPokemon() {
+    if (this.urlT) {
+      this.editImage()
     }
     const pokemon: any = {
-      tipo: this.crearPokemon.value.tipo,
-      nombre: this.crearPokemon.value.nombre,
-      nivel: this.crearPokemon.value.nivel,
+      tipo: this.editarPokemon.value.tipo,
+      nombre: this.editarPokemon.value.nombre,
+      nivel: this.editarPokemon.value.nivel,
       urlImagen: this.url
     }
     this.loading = true
-    this._pokemonService.agregarPokemon(pokemon).then(() => {
-      this.toastr.success('El pokemon fue agregado con éxito', 'Pokemon agregado', {
+    this._pokemonService.actualizarPokemon(this.id, pokemon).then(() => {
+      this.loading = false
+      this.toastr.info('El pokemon fue modificado con éxito', 'Pokemon modificado', {
         positionClass: "toast-bottom-right"
       });
-      this.loading = false
       this.router.navigate(['/lista-pokemones'])
     }).catch(error => {
       console.log(error)
       this.loading = false
-    }
-    );
+    })
+  }
+
+  editImage() {
+    this.storage.storage.refFromURL(this.url).delete()
+    this.url = this.urlT
   }
 
   onChangeImage(e) {
@@ -80,9 +99,11 @@ export class CrearPokemonComponent implements OnInit {
     task.snapshotChanges().pipe(finalize(() => {
       ref.getDownloadURL().subscribe(urlImage => {
         this.urlT = urlImage
-        this.url = urlImage
+        this.urlImagenAMostrar = urlImage
       })
+      this.uploading = false
     }
     )).subscribe()
   }
+
 }

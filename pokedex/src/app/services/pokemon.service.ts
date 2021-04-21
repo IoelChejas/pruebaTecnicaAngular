@@ -14,7 +14,7 @@ export class PokemonService {
   }
 
   getPokemones(): Observable<any> {
-    return this.firestore.collection("pokemones", ref => ref.orderBy('fechaCreacion', 'desc')).snapshotChanges()
+    return this.firestore.collection("pokemones", ref => ref.orderBy('tipo', 'desc')).snapshotChanges()
   }
 
   eliminarPokemon(id): Promise<any> {
@@ -25,7 +25,7 @@ export class PokemonService {
     return this.firestore.collection("pokemones").doc(id).snapshotChanges()
   }
 
-  actualizarEmpleado(id: string, data: any): Promise<any> {
+  actualizarPokemon(id: string, data: any): Promise<any> {
     return this.firestore.collection("pokemones").doc(id).update(data)
   }
 }

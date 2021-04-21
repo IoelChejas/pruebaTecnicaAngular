@@ -16,13 +16,15 @@ import { ListaPokemonesComponent } from './components/lista-pokemones/lista-poke
 import { CrearPokemonComponent } from './components/crear-pokemon/crear-pokemon.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { environment } from 'src/environments/environment';
+import { EditarPokemonComponent } from './components/editar-pokemon/editar-pokemon.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListaPokemonesComponent,
     CrearPokemonComponent,
-    NavbarComponent
+    NavbarComponent,
+    EditarPokemonComponent
   ],
   imports: [
     BrowserModule,

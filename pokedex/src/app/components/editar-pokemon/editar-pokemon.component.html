@@ -8,11 +8,11 @@
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </h3>
-                    <span *ngIf="submitted && crearPokemon.invalid" class="badge bg-danger">TODOS LOS CAMPOS SON
+                    <span *ngIf="submitted && editarPokemon.invalid" class="badge bg-danger">TODOS LOS CAMPOS SON
                         OBLIGATORIOS
                     </span>
                     <hr>
-                    <form class="mt-4" [formGroup]="crearPokemon" (ngSubmit)="agregarPokemon()">
+                    <form class="mt-4" [formGroup]="editarPokemon" (ngSubmit)="editPokemon()">
                         <div class="row">
                             <div class="col">
                                 <input type="text" class="form-control form-control-lg" formControlName="tipo"
@@ -37,6 +37,7 @@
                             <input class="form-control" type="file" accept=".png, .jpg"
                                 (change)="onChangeImage($event)">
                         </div>
+                        <img *ngIf="urlImagenAMostrar" [src]="urlImagenAMostrar" height="300" width="300" class="img-fluid" alt=" ">
                         <div *ngIf="uploading" class="progress mt-4">
                             <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
                                 [style.width]="(uploadPercent | async) + '%'">

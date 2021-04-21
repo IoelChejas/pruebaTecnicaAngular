@@ -26,8 +26,6 @@ export class ListaPokemonesComponent implements OnInit {
     this._pokemonService.getPokemones().subscribe(data => {
       this.pokemones = []
       data.forEach((element: any) => {
-        //console.log(element.payload.doc.data())
-        //console.log(element.payload.doc.id)
         this.pokemones.push({
           id: element.payload.doc.id,
           ...element.payload.doc.data()
