@@ -1,0 +1,16 @@
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="mb-3 row">
+                        <h3>Tu perfil</h3>
+                        <h5 *ngIf="auth.user | async as user">Nombre: {{ user.displayName }}</h5>
+                        <input type="text" class="form-control" [(ngModel)]="nombre" placeholder="Nombre">
+                    </div>
+                    <button class="btn btn-secondary btn-lg mt-3" (click)="editar()">Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

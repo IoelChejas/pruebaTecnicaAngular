@@ -122,10 +122,32 @@
                         </div>
                         <div *ngIf="evoluciones.length > 0">
                             <span class="badge bg-info" style="margin-right: 10px;">EVOLUCIONES</span>
-                            <tr *ngFor="let e of evoluciones">
-                                <td><span class="badge bg-info" style="margin-right: 10px;">{{ e.nombre }}</span></td>
-                                <td><i (click)="eliminarEvolucion(e)" class="fas fa-trash fa-lg text-danger"></i></td>
-                            </tr>
+                            <table class="table table-striped mt-5">
+                                <thead>
+                                    <tr>
+                                        <th>Tipos</th>
+                                        <th>Nombre</th>
+                                        <th>Nivel</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let e of evoluciones">
+                                        <td>
+                                    <tr>
+                                        <td *ngFor="let t of e.tipo"><span class="badge bg-info"
+                                                style="margin-right: 10px;">{{ t
+                                                }}</span></td>
+                                    </tr>
+                                    </td>
+                                    <td>{{ e.nombre }}</td>
+                                    <td>{{ e.nivel }}</td>
+                                    <td>
+                                        <i (click)="eliminarEvolucion(e)" class="fas fa-trash fa-lg text-danger"></i>
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <hr>
                         <div class="mt-3">

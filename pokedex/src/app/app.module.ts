@@ -9,6 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireStorageModule } from '@angular/fire/storage'
+import { AngularFireAuthModule } from '@angular/fire/auth'
+import { FormsModule } from '@angular/forms'
 
 // Componentes
 import { AppComponent } from './app.component';
@@ -17,6 +19,12 @@ import { CrearPokemonComponent } from './components/crear-pokemon/crear-pokemon.
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { environment } from 'src/environments/environment';
 import { EditarPokemonComponent } from './components/editar-pokemon/editar-pokemon.component';
+import { VerPokemonComponent } from './components/ver-pokemon/ver-pokemon.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegistrarseComponent } from './components/registrarse/registrarse.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { FormComponent } from './components/form/form.component';
+import { AngularFireAuthGuardModule  } from '@angular/fire/auth-guard'
 
 @NgModule({
   declarations: [
@@ -24,7 +32,12 @@ import { EditarPokemonComponent } from './components/editar-pokemon/editar-pokem
     ListaPokemonesComponent,
     CrearPokemonComponent,
     NavbarComponent,
-    EditarPokemonComponent
+    EditarPokemonComponent,
+    VerPokemonComponent,
+    LoginComponent,
+    RegistrarseComponent,
+    PerfilComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +47,10 @@ import { EditarPokemonComponent } from './components/editar-pokemon/editar-pokem
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    AngularFireAuthModule,
+    FormsModule,
+    AngularFireAuthGuardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

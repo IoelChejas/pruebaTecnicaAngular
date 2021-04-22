@@ -3,19 +3,18 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  selector: 'app-registrarse',
+  templateUrl: './registrarse.component.html',
+  styleUrls: ['./registrarse.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class RegistrarseComponent implements OnInit {
 
   constructor(public auth: AngularFireAuth, private router: Router) { }
 
   ngOnInit(): void {
+    if (this.auth.user) {
+      this.router.navigate(['lista-pokemones'])
+    }
   }
 
-  logout() {
-    this.auth.signOut()
-    this.router.navigate(['login'])
-  }
 }

@@ -1,5 +1,21 @@
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid">
-      <span class="navbar-brand mb-0 h1">Pokedex</span>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand">Pokedex</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <button class="btn btn-secondary btn-lg mt-3" style="margin-left: 10px;" aria-current="page"
+            *ngIf="auth.user | async" (click)="logout()">Cerrar sesion</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-secondary btn-lg mt-3" style="margin-left: 10px;" *ngIf="!auth.user | async"
+            [routerLink]="['/registrarse']">Registrarse</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-secondary btn-lg mt-3" style="margin-left: 10px;" *ngIf="auth.user | async"
+            [routerLink]="['/perfil']">Perfil</button>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>

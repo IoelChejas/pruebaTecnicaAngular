@@ -1,0 +1,73 @@
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3>{{ titulo }}</h3>
+                    <hr>
+                    <form class="mt-4" [formGroup]="verPokemon">
+                        <h4>TIPOS</h4>
+                        <span *ngFor="let t of tipos" class="badge bg-info" style="margin-right: 10px;">{{ t }}</span>
+
+                        <div class="row mt-4">
+                            <div class="col">
+                                <input type="text" disabled class="form-control form-control-lg"
+                                    formControlName="nombre" placeholder="Nombre">
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <input type="number" disabled class="form-control form-control-lg"
+                                    formControlName="nivel" placeholder="Nivel">
+                            </div>
+                        </div>
+                        <hr>
+                        <img *ngIf="urlImagenAMostrar" [src]="urlImagenAMostrar" height="300" width="300"
+                            class="img-fluid" alt=" ">
+                        <hr>
+                        <h4>HABILIDADES</h4>
+                        <span *ngFor="let h of habilidades" class="badge bg-info" style="margin-right: 10px;">{{ h
+                            }}</span>
+                        <hr>
+                        <div *ngIf="evoluciones.length === 0">
+                            <span class="badge bg-danger" style="margin-right: 10px;">NO HAY EVOLUCIONES</span>
+                        </div>
+                        <div *ngIf="evoluciones.length > 0">
+                            <span class="badge bg-info" style="margin-right: 10px;">EVOLUCIONES</span>
+                            <table class="table table-striped mt-5">
+                                <thead>
+                                    <tr>
+                                        <th>Tipos</th>
+                                        <th>Nombre</th>
+                                        <th>Nivel</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let e of evoluciones">
+                                        <td>
+                                    <tr>
+                                        <td *ngFor="let t of e.tipo"><span class="badge bg-info"
+                                                style="margin-right: 10px;">{{ t
+                                                }}</span></td>
+                                    </tr>
+                                    </td>
+                                    <td>{{ e.nombre }}</td>
+                                    <td>{{ e.nivel }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="mt-3">
+                            <button type="text" class="btn btn-secondary btn-lg" style="margin-right: 10px;"
+                                routerLink="/lista-pokemones">
+                                Volver
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
