@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { PokemonService } from 'src/app/services/pokemon.service';
@@ -14,7 +15,8 @@ export class ListaPokemonesComponent implements OnInit {
 
   constructor(
     private _pokemonService: PokemonService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private storage: AngularFireStorage) {
 
   }
 
@@ -35,7 +37,11 @@ export class ListaPokemonesComponent implements OnInit {
     })
   }
 
-  eliminarPokemon(id: String) {
+  eliminarPokemon(id: string) {
+    this._pokemonService.getPokemon(id).subscribe(data => {
+      const urlImagen = data.payload.data()["urlImagen"]
+      this.storage.storage.refFromURL(urlImagen).delete()
+    })
     this._pokemonService.eliminarPokemon(id).then(() => {
       this.toastr.error('El pokemon fue borrado con éxito', 'Pokemon borrado', {
         positionClass: "toast-bottom-right"

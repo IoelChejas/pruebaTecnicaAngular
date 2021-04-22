@@ -151,6 +151,7 @@ export class CrearPokemonComponent implements OnInit {
       nombre: this.crearPokemon.value.nombreEvolucion,
       nivel: this.crearPokemon.value.nivelEvolucion
     })
+    this.tiposDeEvolucion = []
   }
 
   eliminarEvolucion(evolucion) {
